@@ -1,24 +1,26 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { MdDashboard, MdLogout } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Button, Drawer } from "antd";
+import { GrOrganization } from "react-icons/gr";
 
 export default function Dashboard() {
   const [showSidebar, setShowSidebar] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    navigate("/");
   };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      return (window.location.href = "/login");
+      return navigate("/");
     }
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const pxl = window.innerWidth >= 760;
@@ -43,7 +45,7 @@ export default function Dashboard() {
       {showSidebar ? (
         <div className="flex">
           {/* Sidebar Desktop */}
-          <div className="bg-sidebarBg w-52 min-h-screen">
+          <div className="bg-sidebarBg w-64 min-h-screen">
             {/* Logo */}
             <div className="flex justify-center">
               <img src="./src/assets/logo-login.png" alt="Login" width={100} />
@@ -52,19 +54,31 @@ export default function Dashboard() {
             <div>
               <Link
                 onClick={() => {
-                  swal("Info", "Sabar bro, gua belum bikin :(", "info", {
+                  swal("Info", "Coming Soon!", "info", {
                     button: false,
                   });
                 }}
-                className="text-body font-bold flex items-center gap-3 px-5 py-3 cursor-pointer  hover:text-bodyBg"
+                className="text-bodyBg font-bold flex items-center gap-3 px-5 py-3 cursor-pointer hover:text-button text-sm transition-all duration-300"
               >
                 <MdDashboard /> Dashboard
               </Link>
             </div>
             <div>
               <Link
+                onClick={() => {
+                  swal("Info", `Coming Soon!`, "info", {
+                    button: false,
+                  });
+                }}
+                className="text-bodyBg font-bold flex items-center gap-3 px-5 py-3 cursor-pointer  hover:text-button text-sm transition-all duration-300"
+              >
+                <GrOrganization /> Manage Company
+              </Link>
+            </div>
+            <div>
+              <Link
                 onClick={handleLogout}
-                className="text-body font-bold flex items-center gap-3 px-5 py-3 cursor-pointer hover:text-bodyBg"
+                className="text-bodyBg font-bold flex items-center gap-3 px-5 py-3 cursor-pointer  hover:text-button text-sm transition-all duration-300"
               >
                 <MdLogout /> Logout
               </Link>
@@ -114,7 +128,7 @@ export default function Dashboard() {
             </Drawer>
           </div>
           <div className="flex min-h-screen w-full justify-center items-center ">
-            <h1 className="animate-ping">Developed By GOGOGO&#10084;</h1>
+            <h1 className="animate-pulse">Developed By GOGOGO&#10084;</h1>
           </div>
         </div>
       )}
