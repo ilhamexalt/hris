@@ -79,11 +79,13 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center w-full min-h-screen flex-col bg-white bg-cover">
+      <div className="flex justify-center items-center w-full min-h-screen flex-col bg-bodyBg bg-cover">
         {contextHolder}
 
         <div className="mb-5">
-          <img src="./src/assets/logo-login.png" alt="Login" width={200} />
+          {/* <img src="./src/assets/logo-login.png" alt="Login" width={200} /> */}
+          <h1 className="font-bold text-5xl">HRIS</h1>
+          <span className="tracking-wide">DEVELOPMENT</span>
         </div>
         <Form name="basic">
           <Form.Item
@@ -130,8 +132,14 @@ const Login = () => {
         </Form>
 
         <Link
+          to="/register"
+          className="text-body hover:text-button transition ease-in-out delay-50 text-xs md:text-sm -mt-4 mb-2"
+        >
+          {"Don't have an account yet?"}
+        </Link>
+        <Link
           to="/forgotpassword"
-          className="text-body hover:text-blue-500 transition ease-in-out delay-50"
+          className="text-body hover:text-button transition ease-in-out delay-50 text-xs md:text-sm"
         >
           Forgot password?
         </Link>

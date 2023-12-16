@@ -3,8 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { MdDashboard, MdLogout } from "react-icons/md";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { Button, Drawer } from "antd";
+import { Avatar, Button, Drawer } from "antd";
 import { GrOrganization } from "react-icons/gr";
+import { UserOutlined } from "@ant-design/icons";
 
 export default function Dashboard() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -94,7 +95,8 @@ export default function Dashboard() {
           <div className="p-2 flex justify-between items-center">
             {/* Sidebar Mobile */}
             <div>
-              <img src="./src/assets/logo-login.png" alt="Login" width={50} />
+              {/* <img src="./src/assets/logo-login.png" alt="Login" width={50} /> */}
+              <Avatar icon={<UserOutlined />} />
             </div>
             <Button type="primary" onClick={showDrawer} className="bg-button">
               <GiHamburgerMenu />
