@@ -6,8 +6,14 @@ import Dashboard from "./pages/dashboard";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
+import LoginAdmin from "./pages/auth/LoginAdmin";
+import Profile from "./pages/profile/Index";
 
 const router = createBrowserRouter([
+  {
+    path: "/admin",
+    element: <LoginAdmin />,
+  },
   {
     path: "/",
     element: <Login />,
@@ -23,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
 ]);
 

@@ -5,7 +5,7 @@ import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 
-const Login = () => {
+const LoginAdmin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ const Login = () => {
       messageApi.open({
         key,
         type: "warning",
-        content: "Please input username and password",
+        content: "Please input email and password",
         duration: 2,
       });
     }, 1000);
@@ -38,7 +38,7 @@ const Login = () => {
       return false;
     }
     try {
-      const api = await fetch("https://bluepath.my.id/company/login", {
+      const api = await fetch("https://bluepath.my.id/admin/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,13 +50,9 @@ const Login = () => {
       });
       if (api.status === 200) {
         const res = await api.json();
+        console.log(api.status);
         if (res.token) {
           localStorage.setItem("token", res.token);
-          localStorage.setItem("data", JSON.stringify(res.data));
-          // localStorage.setItem(
-          //   "employee",
-          //   JSON.stringify(res.data["employee"])
-          // );
           setTimeout(() => navigate("/dashboard"), 2000);
         }
       } else {
@@ -87,8 +83,8 @@ const Login = () => {
 
         <div className="mb-5 text-center">
           {/* <img src="./src/assets/logo-login.png" alt="Login" width={200} /> */}
-          <h1 className="font-bold text-5xl ">HRIS</h1>
-          <span className="tracking-wide">DEVELOPMENT</span>
+          <h1 className="font-bold text-5xl">HRIS</h1>
+          <span className="tracking-wide">DEVELOPMENT-ADMIN</span>
         </div>
         <Form name="basic">
           <Form.Item
@@ -135,12 +131,6 @@ const Login = () => {
         </Form>
 
         <Link
-          to="/register"
-          className="text-body hover:text-button transition ease-in-out delay-50 text-xs md:text-sm -mt-4 mb-2"
-        >
-          {"Don't have an account yet?"}
-        </Link>
-        <Link
           to="/forgotpassword"
           className="text-body hover:text-button transition ease-in-out delay-50 text-xs md:text-sm"
         >
@@ -151,4 +141,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginAdmin;

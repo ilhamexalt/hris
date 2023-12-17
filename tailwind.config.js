@@ -8,7 +8,7 @@ export default {
       },
       colors: {
         body: "#232B2B",
-        sidebarBg: "#191970",
+        sidebarBg: "#171769",
         bodyBg: "#fff",
         button: "#50B8E7",
       },

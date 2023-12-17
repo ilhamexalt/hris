@@ -1,6 +1,8 @@
-import { Button, Input, Form } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Input, Form, message, Spin } from "antd";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
+import { LoadingOutlined } from "@ant-design/icons";
 // import { UploadOutlined } from "@ant-design/icons";
 // import { Upload } from "antd";
 
@@ -18,13 +20,94 @@ import swal from "sweetalert";
 // };
 
 const Register = () => {
-  //   const [username, setUsername] = useState("");
-  //   const [password, setPassword] = useState("");
+  const [companyname, setCompanyname] = useState("");
+  const [address, setAddress] = useState("");
+  const [telephone, setTelephone] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
   //   const navigate = useNavigate();
   //   const [loading, setLoading] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+  const key = "updatable";
+  const openMessage = () => {
+    messageApi.open({
+      key,
+      type: "loading",
+      content: "Loading...",
+    });
+    setTimeout(() => {
+      messageApi.open({
+        key,
+        type: "warning",
+        content: "Please complete the registration form",
+        duration: 2,
+      });
+    }, 1000);
+  };
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    if (
+      companyname === "" ||
+      address === "" ||
+      telephone === "" ||
+      name === "" ||
+      email === "" ||
+      password === ""
+    ) {
+      openMessage();
+      setLoading(false);
+      return false;
+    }
+
+    try {
+      const api = await fetch("https://bluepath.my.id/company/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          company: {
+            company_name: companyname,
+            address: address,
+            phone: telephone,
+            email: email,
+            password: password,
+          },
+          employee: {
+            name: name,
+            address: address,
+            email: email,
+            password: password,
+            phone: telephone,
+          },
+        }),
+      });
+
+      const res = await api.json();
+      console.log(res);
+      if (res) {
+        if (res.status === 200) {
+          swal("Success", res.message, "success");
+          navigate("/");
+        } else {
+          swal("Error", res.message, "error");
+          setLoading(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex justify-center items-center w-full min-h-screen flex-col bg-bodyBg bg-cover">
+      {contextHolder}
       <div className="mb-5">
         {/* <img src="./src/assets/logo-login.png" alt="Login" width={200} /> */}
         <h1 className="font-bold text-5xl">HRIS</h1>
@@ -33,23 +116,23 @@ const Register = () => {
       <Form name="basic" className=" w-72">
         <Form.Item
           className="w-full"
-          onChange={() => {
-            // setUsername(e.target.value);
+          onChange={(e) => {
+            setCompanyname(e.target.value);
           }}
         >
           <Input placeholder="Company Name" />
         </Form.Item>
 
         <Form.Item
-          onChange={() => {
-            // setPassword(e.target.value);
+          onChange={(e) => {
+            setAddress(e.target.value);
           }}
         >
           <Input.TextArea placeholder="Address" />
         </Form.Item>
         <Form.Item
-          onChange={() => {
-            // setPassword(e.target.value);
+          onChange={(e) => {
+            setTelephone(e.target.value);
           }}
         >
           <Input placeholder="Telephone" />
@@ -60,8 +143,22 @@ const Register = () => {
           </Upload>
         </Form.Item> */}
         <Form.Item
-          onChange={() => {
-            // setPassword(e.target.value);
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+        >
+          <Input placeholder="Name" />
+        </Form.Item>
+        <Form.Item
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+        >
+          <Input placeholder="Email" />
+        </Form.Item>
+        <Form.Item
+          onChange={(e) => {
+            setPassword(e.target.value);
           }}
         >
           <Input.Password placeholder="Password" />
@@ -72,13 +169,9 @@ const Register = () => {
             type="primary"
             htmlType="submit"
             className="bg-button w-full tracking-widest"
-            onClick={() => {
-              swal("Info", `Coming Soon!`, "info", {
-                button: false,
-              });
-            }}
+            onClick={handleRegister}
           >
-            {/* {loading ? (
+            {loading ? (
               <Spin
                 indicator={
                   <LoadingOutlined
@@ -90,9 +183,9 @@ const Register = () => {
                   />
                 }
               />
-            ) : ( */}
-            REGISTER
-            {/* )} */}
+            ) : (
+              "REGISTER"
+            )}
           </Button>
         </Form.Item>
       </Form>

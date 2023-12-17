@@ -2,22 +2,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MenuBarMobile from "../../components/MenuBarMobile";
 import MenuBarDesktop from "../../components/MenuBarDesktop";
-
-import { Carousel } from "antd";
 import Navbar from "../../components/Navbar";
-const contentStyle = {
-  height: "160px",
-  color: "#fff",
-  lineHeight: "160px",
-  textAlign: "center",
-  background: "#171769",
-};
+import { List } from "antd";
 
-export default function Dashboard() {
+const Profile = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const navigate = useNavigate();
   const data = JSON.parse(localStorage.getItem("data"));
-  console.log(data);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -44,15 +36,18 @@ export default function Dashboard() {
             <MenuBarDesktop />
 
             {/* Content */}
-            <div className="w-9/12 mx-10 my-10 font-bold">
-              <Carousel autoplay>
-                <div>
-                  <h3 style={contentStyle}>{data?.company.company_name}</h3>
-                </div>
-                <div>
-                  <h3 style={contentStyle}>{data?.company.address}</h3>
-                </div>
-              </Carousel>
+            <div>
+              <List
+                size="small"
+                bordered
+                dataSource={[
+                  data?.company.address,
+                  data?.company.phone,
+                  data?.company.email,
+                  data?.company.company_name,
+                ]}
+                renderItem={(item) => <List.Item>{item}</List.Item>}
+              />
             </div>
           </div>
         </>
@@ -63,11 +58,23 @@ export default function Dashboard() {
             <MenuBarMobile />
           </div>
           {/* Content */}
-          <div className="flex min-h-screen w-full justify-center items-center ">
-            <h1 className="animate-pulse">Developed By GOGOGO&#10084;</h1>
+          <div>
+            <List
+              size="small"
+              bordered
+              dataSource={[
+                data?.company.company_name,
+                data?.company.email,
+                data?.company.address,
+                data?.company.phone,
+              ]}
+              renderItem={(item) => <List.Item>{item}</List.Item>}
+            />
           </div>
         </div>
       )}
     </div>
   );
-}
+};
+
+export default Profile;
