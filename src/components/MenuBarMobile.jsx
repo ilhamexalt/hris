@@ -3,13 +3,19 @@ import { Avatar, Button, Drawer } from "antd";
 import { useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
-import swal from "sweetalert";
 import { MdDashboard, MdLogout } from "react-icons/md";
 import { GrOrganization } from "react-icons/gr";
+import { RiMessage2Line } from "react-icons/ri";
+import { TbReport } from "react-icons/tb";
+import { FaRegMoneyBill1 } from "react-icons/fa6";
+import { MdDomain } from "react-icons/md";
+import { MdMoreTime } from "react-icons/md";
+import { GrSchedulePlay } from "react-icons/gr";
+import { IoSettingsOutline } from "react-icons/io5";
+import swal from "sweetalert";
 
 export default function MenuBarMobile() {
   const [open, setOpen] = useState(false);
-  const data = JSON.parse(localStorage.getItem("data"));
   const navigate = useNavigate();
   const showDrawer = () => {
     setOpen(true);
@@ -24,19 +30,7 @@ export default function MenuBarMobile() {
     navigate("/");
   };
   return (
-    <>
-      <Link to="/profile" className=" font-bold flex items-center gap-3 ">
-        <Avatar
-          icon={<UserOutlined />}
-          style={{
-            backgroundColor: "#87d068",
-          }}
-        />
-        <p className="text-sm text-white uppercase">
-          {data?.employee.name} as {data?.employee.position}
-        </p>
-      </Link>
-
+    <div className="p-3 flex justify-between items-center border-b bg-white">
       <Button type="primary" onClick={showDrawer} className="bg-button">
         <GiHamburgerMenu />
       </Button>
@@ -44,9 +38,17 @@ export default function MenuBarMobile() {
         <div>
           <Link
             to="/dashboard"
-            className="text-body font-bold flex items-center gap-3 py-3  cursor-pointer  hover:text-button"
+            className="text-body font-bold flex items-center gap-3 py-3 cursor-pointer hover:text-button text-sm transition-all duration-300"
           >
             <MdDashboard /> Dashboard
+          </Link>
+        </div>
+        <div>
+          <Link
+            to={"/employee"}
+            className="text-body font-bold flex items-center gap-3  py-3 cursor-pointer  hover:text-button text-sm transition-all duration-300"
+          >
+            <GrOrganization /> Manage Employee
           </Link>
         </div>
         <div>
@@ -56,11 +58,72 @@ export default function MenuBarMobile() {
                 button: false,
               });
             }}
-            className="text-body font-bold flex items-center gap-3  py-3 cursor-pointer hover:text-button"
+            className="text-body font-bold flex items-center gap-3  py-3 cursor-pointer  hover:text-button text-sm transition-all duration-300"
           >
-            <GrOrganization /> Manage Employee
+            <TbReport /> Manage Report
           </Link>
         </div>
+        <div>
+          <Link
+            onClick={() => {
+              swal("Info", `Coming Soon!`, "info", {
+                button: false,
+              });
+            }}
+            className="text-body font-bold flex items-center gap-3  py-3 cursor-pointer  hover:text-button text-sm transition-all duration-300"
+          >
+            <FaRegMoneyBill1 /> Manage Payroll
+          </Link>
+        </div>
+        <div>
+          <Link
+            onClick={() => {
+              swal("Info", `Coming Soon!`, "info", {
+                button: false,
+              });
+            }}
+            className="text-body font-bold flex items-center gap-3  py-3 cursor-pointer  hover:text-button text-sm transition-all duration-300"
+          >
+            <MdDomain /> Manage Master
+          </Link>
+        </div>
+        <div>
+          <Link
+            onClick={() => {
+              swal("Info", `Coming Soon!`, "info", {
+                button: false,
+              });
+            }}
+            className="text-body font-bold flex items-center gap-3  py-3 cursor-pointer  hover:text-button text-sm transition-all duration-300"
+          >
+            <MdMoreTime /> Manage Overtime
+          </Link>
+        </div>
+        <div>
+          <Link
+            onClick={() => {
+              swal("Info", `Coming Soon!`, "info", {
+                button: false,
+              });
+            }}
+            className="text-body font-bold flex items-center gap-3  py-3 cursor-pointer  hover:text-button text-sm transition-all duration-300"
+          >
+            <GrSchedulePlay /> Manage Schedule
+          </Link>
+        </div>
+        <div>
+          <Link
+            onClick={() => {
+              swal("Info", `Coming Soon!`, "info", {
+                button: false,
+              });
+            }}
+            className="text-body font-bold flex items-center gap-3  py-3 cursor-pointer  hover:text-button text-sm transition-all duration-300"
+          >
+            <IoSettingsOutline /> Setting
+          </Link>
+        </div>
+
         <div>
           <Link
             onClick={handleLogout}
@@ -70,6 +133,18 @@ export default function MenuBarMobile() {
           </Link>
         </div>
       </Drawer>
-    </>
+
+      <div className="font-bold flex items-center gap-3 ">
+        <div className="flex items-center gap-3 hover:cursor-pointer">
+          <span className="w-10 h-10 border-2 border-rightBg rounded-full flex justify-center items-center relative">
+            <span className="w-2 h-2 bg-red-500 rounded-full absolute top-2 left-5"></span>
+            <RiMessage2Line />
+          </span>
+          <Link to="/profile">
+            <Avatar size="large" icon={<UserOutlined />} />
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }

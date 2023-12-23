@@ -1,13 +1,20 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import MenuBarMobile from "../../components/MenuBarMobile";
-import MenuBarDesktop from "../../components/MenuBarDesktop";
-import Navbar from "../../components/Navbar";
-import { List } from "antd";
+import { List, Skeleton } from "antd";
+import Layout from "../../components/Layout";
+import LayoutMobile from "../../components/LayoutMobile";
+import Topbar from "../../components/Topbar";
+import { useMediaQuery } from "react-responsive";
 
 const Profile = () => {
-  const [showSidebar, setShowSidebar] = useState(false);
+  const isDesktopOrLaptop = useMediaQuery({ query: "(min-width: 1224px)" });
+  // const isBigScreen = useMediaQuery({ query: "(min-width: 1824px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
+  // const isPortrait = useMediaQuery({ query: "(orientation: portrait)" });
+
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
   const data = JSON.parse(localStorage.getItem("data"));
 
   useEffect(() => {
@@ -18,25 +25,41 @@ const Profile = () => {
   }, [navigate]);
 
   useEffect(() => {
-    const pxl = window.innerWidth >= 760;
-    if (pxl) {
-      setShowSidebar(true);
-    }
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   }, []);
 
   return (
     <div className="bg-bodyBg min-h-screen">
-      {showSidebar ? (
-        <>
-          {/* Navbar */}
-          <Navbar />
-
-          <div className="flex bg-white">
-            {/* Sidebar Desktop */}
-            <MenuBarDesktop />
-
+      {isDesktopOrLaptop && (
+        <Layout className="flex bg-bodyBg min-h-screen">
+          <div className="w-full">
+            <Topbar />
             {/* Content */}
-            <div>
+            <div className="w-7/12 mt-5 mx-auto">
+              <Skeleton loading={loading}>
+                <List
+                  size="small"
+                  bordered
+                  dataSource={[
+                    data?.company.address,
+                    data?.company.phone,
+                    data?.company.email,
+                    data?.company.company_name,
+                  ]}
+                  renderItem={(item) => <List.Item>{item}</List.Item>}
+                />
+              </Skeleton>
+            </div>
+          </div>
+        </Layout>
+      )}
+      {isTabletOrMobile && (
+        <LayoutMobile className="bg-white">
+          {/* Content */}
+          <div className="w-9/12 mt-5 mx-auto">
+            <Skeleton loading={loading}>
               <List
                 size="small"
                 bordered
@@ -48,30 +71,9 @@ const Profile = () => {
                 ]}
                 renderItem={(item) => <List.Item>{item}</List.Item>}
               />
-            </div>
+            </Skeleton>
           </div>
-        </>
-      ) : (
-        <div>
-          {/* Menu Mobile */}
-          <div className="p-3 flex justify-between items-center bg-sidebarBg">
-            <MenuBarMobile />
-          </div>
-          {/* Content */}
-          <div>
-            <List
-              size="small"
-              bordered
-              dataSource={[
-                data?.company.company_name,
-                data?.company.email,
-                data?.company.address,
-                data?.company.phone,
-              ]}
-              renderItem={(item) => <List.Item>{item}</List.Item>}
-            />
-          </div>
-        </div>
+        </LayoutMobile>
       )}
     </div>
   );

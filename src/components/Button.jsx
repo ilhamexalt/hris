@@ -1,6 +1,6 @@
 import { Button } from "antd";
 
-export default function ButtonCustom(onClick, title) {
+export default function ButtonCustom(onClick, children) {
   return (
     <Button
       type="primary"
@@ -8,7 +8,7 @@ export default function ButtonCustom(onClick, title) {
       className="bg-button w-full tracking-widest"
       onClick={onClick}
     >
-      {title}
+      {children}
     </Button>
   );
 }
